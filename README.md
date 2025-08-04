@@ -1,6 +1,8 @@
 # Spatial Transcriptomics Pipeline Documentation
 
 > **Important:** Adjust HPC settings and environment variables according to your personal cluster configuration for all scripts.
+> More details and better reoganization of files coming as well as more details regading changes internally to code (for enact and smurf)
+> as well as location to models for more convience 
 
 ## Table of Contents
 - [Conda Environment Setup](#conda-environment-setup)
