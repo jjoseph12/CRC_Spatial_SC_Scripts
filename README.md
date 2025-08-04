@@ -1,149 +1,157 @@
-# Overview of Scripts and Notebooks
+# Spatial Transcriptomics Pipeline Documentation
 
-> **Note:** For all scripts, be sure to adjust HPC settings and environment variables according to your personal cluster configuration.
+> **Important:** Adjust HPC settings and environment variables according to your personal cluster configuration for all scripts.
 
-# Conda Environment Setup for ENACT and Integrated Spatial Transcriptomics Pipelines
+## Table of Contents
+- [Conda Environment Setup](#conda-environment-setup)
+- [Models](#models)
+- [Utility Scripts](#utility-scripts)
+- [Processing Pipelines](#processing-pipelines)
+- [Analysis Notebooks](#analysis-notebooks)
 
-This directory contains Conda environment YAML files used to recreate specific software environments for the ENACT pipeline and for integrated spatial transcriptomics tools such as SMURF, Bin2Cell, and general downstream analysis workflows.
+---
 
-## Environment Files
+## Conda Environment Setup
 
-| File Name                      | Purpose                                               | Build Information     | Notes                                                  |
-|-------------------------------|-------------------------------------------------------|------------------------|--------------------------------------------------------|
-| enact_py_env_full.yml         | Environment used for the ENACT pipeline               | Includes build strings | Full reproducibility across systems                   |
-| enact_py_env_nobuilds.yml     | Portable version of the ENACT environment             | No build strings       | More flexible for installing on different machines     |
-| integrate_env_full.yml        | Environment used for SMURF, BinCell, and analysis    | Includes build strings | Used for all spatial transcriptomics analysis pipelines |
-| integrate_env_nobuilds.yml    | Portable version for SMURF, Bin2Cell, and analysis    | No build strings       | Easier to set up on different systems                 |
+This directory contains Conda environment YAML files for reproducing software environments used in the ENACT pipeline and integrated spatial transcriptomics tools (SMURF, Bin2Cell, downstream analysis).
 
+### Environment Files
 
+| File Name | Purpose | Build Information | Use Case |
+|-----------|---------|-------------------|----------|
+| `enact_py_env_full.yml` | ENACT pipeline environment | Includes build strings | Full reproducibility across systems |
+| `enact_py_env_nobuilds.yml` | Portable ENACT environment | No build strings | Flexible installation on different machines |
+| `integrate_env_full.yml` | SMURF, Bin2Cell, and analysis | Includes build strings | Complete spatial transcriptomics analysis |
+| `integrate_env_nobuilds.yml` | Portable integration environment | No build strings | Easy setup on different systems |
 
-## Environment Use Cases
+### Environment Use Cases
 
-- `enact_py_env`: Dedicated to the ENACT pipeline only.
-- `integrate_env`: Shared environment used across:
+- **`enact_py_env`**: Dedicated to the ENACT pipeline only
+- **`integrate_env`**: Shared environment for:
   - SMURF segmentation pipeline
   - Bin2Cell reconstruction
-  - General downstream analysis (e.g., Scanpy, visualxngaization)
+  - General downstream analysis (Scanpy, visualization)
 
----
+### Creating Environments
 
-## How to Create a Conda Environment from a YAML File
-
-### Option 1: Use the name defined in the YAML
-
-This will create an environment using the name specified inside the YAML file:
-
-```bash``
+#### Option 1: Use default name from YAML
+```bash
 conda env create -f integrate_env_full.yml
+```
 
-### Option 2: You can replace the default name with one of your choosing by using the -n flag:
+#### Option 2: Custom environment name
+```bash
 conda env create -f integrate_env_full.yml -n smurf_env
 conda env create -f enact_py_env_nobuilds.yml -n enact_custom
+```
 
-
-## How to Create a Conda Environment from a YAML File
-
+#### Activating Environments
+```bash
+# Default name
 conda activate enact_py_env
 
-or if custom name: conda activate enact_custom
-
-
-## Models
-- `/gpfs/commons/groups/innovation/jjoseph/python_2D_versatile_he.zip`
--   Contains the trained StarDist 2D versatile model for H&E images.
-
+# Custom name
+conda activate enact_custom
+```
 
 ---
 
-## Helpful Scripts
-- **Launch Jupyter Notebook**: `Jupyter.sh`  
-  Starts a Jupyter Notebook session on an HPC cluster.
-- **Interactive SMURF Job:** `interactive_smurf.sh`
-  - Launches GPU Node for interactive, right now its set for SMURF environment but can be adjusted for differnt purposes. 
-- 
+## Models
 
+### StarDist Model
+- **Path**: `/gpfs/commons/groups/innovation/jjoseph/python_2D_versatile_he.zip`
+- **Description**: Trained StarDist 2D versatile model for H&E image nucleus segmentation
 
-## Python Scripts
+---
 
-### `run_stardist.py`
-Applies StarDist2D nucleus segmentation to a single high-resolution H&E image.
+## Utility Scripts
 
-- Automatically selects parameters based on image dimensions  
-- Outputs segmentation masks and overlay PNGs
+### System Management
+- **`Jupyter.sh`**: Launch Jupyter Notebook session on HPC cluster
+- **`interactive_smurf.sh`**: Launch GPU node for interactive work (configured for SMURF environment, adjustable)
 
-### `stardist_batch.sh`
-SLURM batch script to process a directory of images using `run_stardist.py`.
+---
 
-- Skips already processed images  
-- Optimized for memory and resource handling in HPC environments
+## Processing Pipelines
 
-### ENACT 
+### StarDist Nucleus Segmentation
 
-### `run_enact_job.sh`
-Launches ENACT segmentation and analysis workflow for a given input image or batch. Individual one with given config file
+#### `run_stardist.py`
+Single image nucleus segmentation using StarDist2D.
+> **Note**: Automatic parameter selection based on image dimensions, outputs segmentation masks and overlay PNGs
 
-# Now for Processing Multiple at a time: 
+#### `stardist_batch.sh`
+SLURM batch script for directory-wide StarDist processing.
+> **Note**: Skips already processed images, optimized for HPC memory and resource handling
 
-## generate_configs.py: 
-- Generates configuration files used for ENACT
+### ENACT Pipeline
 
-### `run_generate_config_batch.sh`
-Bash script to run `generate_configs.py` across multiple samples.
+#### Single Sample Processing
+- **`run_enact_job.sh`**: Launch ENACT workflow for individual samples with configuration file
 
-### `run_individual_sample_batch.sh`
-Executes ENACT pipeline for a single sample using batch SLURM submission, you can specify which one, this can be used with submit_all_enact_jobs.sh to run them all. 
+#### Batch Processing
+- **`generate_configs.py`**: Generate ENACT configuration files
+- **`run_generate_config_batch.sh`**: Batch configuration file generation
+- **`run_individual_sample_batch.sh`**: Execute ENACT for single sample via SLURM
+- **`submit_all_enact_jobs.sh`**: Master script for submitting multiple ENACT jobs
 
-### `submit_all_enact_jobs.sh`
-Master script to submit multiple ENACT jobs via SLURM.
+### Bin2Cell Pipeline
 
+- **`run_bin2cell_full.py`**: Complete Bin2Cell processing script for all images
+- **`run_bin2cell_full.sh`**: Bash wrapper for Bin2Cell execution
 
-### Bin2cell 
+---
 
-'run_bin2cell_full.py' = script that runs bin2cell with given data input for all images 
-' run_bin2cell_full.py' = bash script to run bin2cell 
+## Analysis Notebooks
 
-## Jupyter Notebooks
+### Quality Control and General Analysis
 
-Analyis
-### 'Qc_Analysis': 
-- General analysis script (details not provided in description).
+#### `Qc_Analysis.ipynb`
+General quality control and analysis workflows.
 
-### `analysis-4.ipynb`
-Similar analysis additional spatial transcriptomics or QC analysis for specific samples.
+#### `analysis-4.ipynb`
+Additional spatial transcriptomics and QC analysis for specific samples.
 
+### SMURF Analysis
 
-## Smurf (there has been some changes to code will talk about) 
-### `07_18_p2_smurf-4.ipynb`
-SMURF-based spatial reconstruction and analysis notebook for the P2 sample. (Worked all the way through but needs some modifcations)
+> **Note:** SMURF code has undergone recent changes and may require modifications.
 
-### `07_25_p5_smurf-2.ipynb`
-SMURF-based spatial reconstruction and analysis notebook for the P5 sample. (No changes to code but does get stuck at some steps, more to this later)
+#### `07_18_p2_smurf-4.ipynb`
+SMURF spatial reconstruction and analysis for P2 sample.
+> **Note**: Complete workflow but needs modifications
 
-### `scrna_integration_Pelka_Moorman_10x.ipynb`
-Integrates 10x Genomics scRNA-seq data with the Pelka & Moorman single-cell reference atlas using Harmony.
+#### `07_25_p5_smurf-2.ipynb`  
+SMURF spatial reconstruction and analysis for P5 sample.
+> **Note**: No code changes needed but encounters processing bottlenecks
 
-- Includes label transfer for annotation
+### Single-Cell Analysis
 
-### `single_cell_analysis.ipynb`
-Complete single-cell RNA-seq analysis pipeline:
+#### `single_cell_analysis.ipynb`
+Complete scRNA-seq analysis pipeline.
+> **Note**: Includes HVG selection, PCA, Leiden clustering, UMAP generation, and marker gene identification
 
-- Preprocessing: HVG selection, PCA, Leiden clustering  
-- Embedding: UMAP  
-- Marker gene identification: `rank_genes_groups`
+#### `scrna_integration_Pelka_Moorman_10x.ipynb`
+Integration of 10x Genomics scRNA-seq data with Pelka & Moorman reference atlas.
+> **Note**: Uses Harmony with label transfer for cell type annotation
 
-### `old_visium_single_cell_integration.ipynb`
-Legacy workflow for integrating Visium spatial transcriptomics data with single-cell references.
+#### `automated_single_cell.ipynb`
+Automated label transfer across multiple samples.
+> **Note**: Uses Harmony batch correction and Scanpy ingest for scalable integration
 
-- Uses outdated methods and/or label mappings  
-- Retained for reproducibility or comparison
+#### `label_single_cell.ipynb`
+Focused cell type annotation workflow.
+> **Note**: Transfers labels from reference to query datasets
 
-### `automated_single_cell.ipynb`
-Automates label transfer across multiple samples.
+### Legacy Analysis
 
-- Batch correction with Harmony  
-- Uses `scanpy` and `ingest` for scalable integration
+#### `old_visium_single_cell_integration.ipynb`
+Legacy Visium spatial transcriptomics integration workflow.
+> **Note**: Uses outdated methods/mappings, retained for reproducibility and comparison
 
-### `label_single_cell.ipynb`
-Performs cell type annotation by transferring labels from a reference to a query dataset.
+---
 
-- Focused notebook for labeling only
+## Getting Started
+
+1. **Set up environment**: Choose appropriate YAML file and create conda environment
+2. **Configure HPC settings**: Adjust batch scripts for your cluster
+3. **Download models**: Ensure StarDist model is accessible at specified path/I'll update the models soon
