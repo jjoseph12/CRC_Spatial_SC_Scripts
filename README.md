@@ -76,6 +76,10 @@ conda activate enact_custom
 
 ### StarDist Nucleus Segmentation
 
+StarDist nucleus segmentation adapted from 10x Genomics Visium HD segmentation guide. SMURF notebooks also perform StarDist segmentation in their initial sections.
+
+https://www.10xgenomics.com/analysis-guides/segmentation-visium-hd
+
 #### `run_stardist.py`
 Single image nucleus segmentation using StarDist2D.
 > **Note**: Automatic parameter selection based on image dimensions, outputs segmentation masks and overlay PNGs
@@ -124,7 +128,19 @@ SMURF spatial reconstruction and analysis for P2 sample.
 SMURF spatial reconstruction and analysis for P5 sample.
 > **Note**: No code changes needed but encounters processing bottlenecks
 
-### Single-Cell Analysis
+### Spatial Analysis
+
+#### `Spatial_Clustering.ipynb`
+Performs preprocessing, normalization, and integration for spatial data.
+> **Note**: Uses Harmony for integration, applies label transfer from single-cell reference to spatial data, outputs annotated datasets for downstream analysis
+
+#### `Spatial_Clustering_code.ipynb`
+Refactored core functions from `Spatial_Clustering.ipynb` into reusable components.
+> **Note**: Contains batch processing and plotting functions for UMAPs and label assignments, saves results and visualizations to organized output directories
+
+#### `graphing_clusters.ipynb`
+Visualizes clustering results and analyzes cluster compositions.
+> **Note**: Creates UMAPs, bar plots, dot plots, computes cluster purity metrics using k-nearest-neighbor analysis, generates publication-quality plots
 
 #### `single_cell_analysis.ipynb`
 Complete scRNA-seq analysis pipeline.
@@ -142,16 +158,20 @@ Automated label transfer across multiple samples.
 Focused cell type annotation workflow.
 > **Note**: Transfers labels from reference to query datasets
 
-### Legacy Analysis
+### Single-Cell Analysis
 
 #### `old_visium_single_cell_integration.ipynb`
 Legacy Visium spatial transcriptomics integration workflow.
 > **Note**: Uses outdated methods/mappings, retained for reproducibility and comparison
 
----
-
-## Getting Started
+### Legacy Analysis
 
 1. **Set up environment**: Choose appropriate YAML file and create conda environment
 2. **Configure HPC settings**: Adjust batch scripts for your cluster
-3. **Download models**: Ensure StarDist model is accessible at specified path/I'll update the models soon
+3. **Download models**: Ensure StarDist model is accessible at specified path
+4. **Run pipeline**: Start with StarDist segmentation, then proceed to ENACT or SMURF
+5. **Analyze results**: Use provided notebooks for downstream analysis
+
+## Support
+
+For issues with specific pipelines or notebooks, refer to the individual script documentation and ensure all dependencies are properly installed in the correct conda environment.
