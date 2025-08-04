@@ -2,6 +2,20 @@
 
 > **Note:** For all scripts, be sure to adjust HPC settings and environment variables according to your personal cluster configuration.
 
+## Models
+- `/gpfs/commons/groups/innovation/jjoseph/python_2D_versatile_he.zip`
+
+---
+
+## Helpful Scripts
+- **Launch Jupyter Notebook:** `Jupyter.sh`
+  - Launches Jupyternotebook environment
+- **Interactive SMURF Job:** `interactive_smurf.sh`
+  - Launches GPU Node for interactive, right now its set for SMURF environment but can be adjusted for differnt purposes. 
+- 
+
+
+
 ## Python Scripts
 
 ### `run_stardist.py`
@@ -16,7 +30,44 @@ SLURM batch script to process a directory of images using `run_stardist.py`.
 - Skips already processed images  
 - Optimized for memory and resource handling in HPC environments
 
+### ENACT 
+
+### `run_enact_job.sh`
+Launches ENACT segmentation and analysis workflow for a given input image or batch. Individual one with given config file
+
+# Now for Processing Multiple at a time: 
+
+## generate_configs.py: 
+- Generates configuration files used for bin2cell
+
+### `run_generate_config_batch.sh`
+Bash script to run `generate_configs.py` across multiple samples.
+
+### `run_individual_sample_batch.sh`
+Executes ENACT pipeline for a single sample using batch SLURM submission, you can specify which one, this can be used with submit_all_enact_jobs.sh to run them all. 
+
+### `submit_all_enact_jobs.sh`
+Master script to submit multiple ENACT jobs via SLURM.
+
+
+
+
 ## Jupyter Notebooks
+
+Analyis
+### 'Qc_Analysis': 
+- General analysis script (details not provided in description).
+
+### `analysis-4.ipynb`
+Similar analysis additional spatial transcriptomics or QC analysis for specific samples.
+
+
+## Smurf (there has been some changes to code will talk about) 
+### `07_18_p2_smurf-4.ipynb`
+SMURF-based spatial reconstruction and analysis notebook for the P2 sample. (Worked all the way through but needs some modifcations)
+
+### `07_25_p5_smurf-2.ipynb`
+SMURF-based spatial reconstruction and analysis notebook for the P5 sample. (No changes to code but does get stuck at some steps, more to this later)
 
 ### `scrna_integration_Pelka_Moorman_10x.ipynb`
 Integrates 10x Genomics scRNA-seq data with the Pelka & Moorman single-cell reference atlas using Harmony.
