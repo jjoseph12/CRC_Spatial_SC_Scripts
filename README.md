@@ -2,6 +2,78 @@
 
 > **Note:** For all scripts, be sure to adjust HPC settings and environment variables according to your personal cluster configuration.
 
+# Conda Environment Setup for ENACT and Integrated Spatial Transcriptomics Pipelines
+
+This directory contains Conda environment YAML files used to recreate specific software environments for the ENACT pipeline and for integrated spatial transcriptomics tools such as SMURF, Bin2Cell, and general downstream analysis workflows.
+
+## Environment Files
+
+| File Name                      | Purpose                                               | Build Information     | Notes                                                  |
+|-------------------------------|-------------------------------------------------------|------------------------|--------------------------------------------------------|
+| enact_py_env_full.yml         | Environment used for the ENACT pipeline               | Includes build strings | Full reproducibility across systems                   |
+| enact_py_env_nobuilds.yml     | Portable version of the ENACT environment             | No build strings       | More flexible for installing on different machines     |
+| integrate_env_full.yml        | Environment used for SMURF, Bin2Cell, and analysis    | Includes build strings | Used for all spatial transcriptomics analysis pipelines |
+| integrate_env_nobuilds.yml    | Portable version for SMURF, Bin2Cell, and analysis    | No build strings       | Easier to set up on different systems                 |
+
+---
+
+## Environment Use Cases
+
+- `enact_py_env`: Dedicated to the ENACT pipeline only.
+- `integrate_env`: Shared environment used across:
+  - SMURF segmentation pipeline
+  - Bin2Cell reconstruction
+  - General downstream analysis (e.g., Scanpy, visualization)
+
+---
+
+## How to Create a Conda Environment from a YAML File
+
+### Option 1: Use the name defined in the YAML
+
+This will create an environment using the name specified inside the YAML file:
+
+```bash
+conda env create -f integrate_env_full.yml
+
+### Option 2: You can replace the default name with one of your choosing by using the -n flag:
+conda env create -f integrate_env_full.yml -n smurf_env
+conda env create -f enact_py_env_nobuilds.yml -n enact_custom
+
+
+## How to Create a Conda Environment from a YAML File
+
+conda activate enact_py_env
+
+or if custom name: conda activate enact_custom
+
+
+
+Difference Between `*_full.yml` and `*_nobuilds.yml`
+
+Conda allows you to export environments with or without detailed build strings.
+
+Use this if you want to exactly replicate the environment on the same or similar system (e.g. on a shared cluster or HPC).
+
+*_nobuilds.yml (without build strings)  
+Omits build-specific information, keeping only the package version.  
+Example:
+
+- numpy=1.26.4
+
+Recommended when:  
+- You want to reduce dependency resolution issues or conflicts during environment creation.  
+- You’re aiming for flexibility and portability, not strict bit-for-bit reproducibility.
+
+This may result in minor variations in package builds depending on what’s available from the Conda channels at the time of installation.
+
+### What to Do If the No-Build Version Fails
+
+If the *_nobuilds.yml file causes errors, fails to resolve dependencies, or behaves unexpectedly:  
+- Switch to the *_full.yml version to ensure the exact environment is restored.  
+- This version pins the package builds and ensures that the same compiled binaries are used, minimizing surprises due to version mismatches or dependency drift.
+
+
 ## Models
 - `/gpfs/commons/groups/innovation/jjoseph/python_2D_versatile_he.zip`
 -   Contains the trained StarDist 2D versatile model for H&E images.
