@@ -38,7 +38,7 @@ Launches ENACT segmentation and analysis workflow for a given input image or bat
 # Now for Processing Multiple at a time: 
 
 ## generate_configs.py: 
-- Generates configuration files used for bin2cell
+- Generates configuration files used for ENACT
 
 ### `run_generate_config_batch.sh`
 Bash script to run `generate_configs.py` across multiple samples.
@@ -50,7 +50,10 @@ Executes ENACT pipeline for a single sample using batch SLURM submission, you ca
 Master script to submit multiple ENACT jobs via SLURM.
 
 
+### Bin2cell 
 
+'run_bin2cell_full.py' = script that runs bin2cell with given data input for all images 
+' run_bin2cell_full.py' = bash script to run bin2cell 
 
 ## Jupyter Notebooks
 
