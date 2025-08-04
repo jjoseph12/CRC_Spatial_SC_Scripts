@@ -15,7 +15,7 @@ This directory contains Conda environment YAML files used to recreate specific s
 | integrate_env_full.yml        | Environment used for SMURF, BinCell, and analysis    | Includes build strings | Used for all spatial transcriptomics analysis pipelines |
 | integrate_env_nobuilds.yml    | Portable version for SMURF, Bin2Cell, and analysis    | No build strings       | Easier to set up on different systems                 |
 
----
+
 
 ## Environment Use Cases
 
@@ -23,7 +23,7 @@ This directory contains Conda environment YAML files used to recreate specific s
 - `integrate_env`: Shared environment used across:
   - SMURF segmentation pipeline
   - Bin2Cell reconstruction
-  - General downstream analysis (e.g., Scanpy, visualization)
+  - General downstream analysis (e.g., Scanpy, visualxngaization)
 
 ---
 
@@ -33,7 +33,7 @@ This directory contains Conda environment YAML files used to recreate specific s
 
 This will create an environment using the name specified inside the YAML file:
 
-```bash
+```bash``
 conda env create -f integrate_env_full.yml
 
 ### Option 2: You can replace the default name with one of your choosing by using the -n flag:
