@@ -4,16 +4,17 @@
 
 ## Models
 - `/gpfs/commons/groups/innovation/jjoseph/python_2D_versatile_he.zip`
+-   Contains the trained StarDist 2D versatile model for H&E images.
+
 
 ---
 
 ## Helpful Scripts
-- **Launch Jupyter Notebook:** `Jupyter.sh`
-  - Launches Jupyternotebook environment
+- **Launch Jupyter Notebook**: `Jupyter.sh`  
+  Starts a Jupyter Notebook session on an HPC cluster.
 - **Interactive SMURF Job:** `interactive_smurf.sh`
   - Launches GPU Node for interactive, right now its set for SMURF environment but can be adjusted for differnt purposes. 
 - 
-
 
 
 ## Python Scripts
