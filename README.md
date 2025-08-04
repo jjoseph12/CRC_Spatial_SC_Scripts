@@ -171,9 +171,5 @@ Legacy Visium spatial transcriptomics integration workflow.
 1. **Set up environment**: Choose appropriate YAML file and create conda environment
 2. **Configure HPC settings**: Adjust batch scripts for your cluster
 3. **Download models**: Ensure StarDist model is accessible at specified path
-4. **Run pipeline**: Start with StarDist segmentation, then proceed to ENACT or SMURF
-5. **Analyze results**: Use provided notebooks for downstream analysis
 
-## Support
 
-For issues with specific pipelines or notebooks, refer to the individual script documentation and ensure all dependencies are properly installed in the correct conda environment.
