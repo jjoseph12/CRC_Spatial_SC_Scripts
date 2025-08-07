@@ -132,6 +132,7 @@ SMURF spatial reconstruction and analysis for P5 sample.
 
 ### Spatial Analysis
 
+> **Note**: There might be some typo on the graphs, with naming the graphs, when I was doing this I noticed and made mental note, since I didnt want to run the code again, so just be careful, and make sure naming matches with what is being plotted.
 #### `Spatial_Clustering.ipynb`
 Performs preprocessing, normalization, and integration for spatial data.
 > **Note**: Uses Harmony for integration, applies label transfer from single-cell reference to spatial data, outputs annotated datasets for downstream analysis
